@@ -39,7 +39,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+  fetcher:
+    build:
+      context: ./fetcher
+    container_name: fetcher_container
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    working_dir: /fetcher/app
+    volumes:
+      - ./fetcher:/fetcher/app
+    networks:
+      - crypto_watcher_network
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 volumes:
   pgdata:
   redisdata:
