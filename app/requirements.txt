@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+redis
+orjson
+pydantic
+pydantic_settings
+psycopg2

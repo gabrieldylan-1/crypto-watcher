@@ -62,6 +62,30 @@ services:
     networks:
       - crypto_watcher_network
     command: ["python3", "fetcher.py"]
+
+  app:
+    build: 
+      context: ./app
+    container_name: app_container
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    depends_on:
+      - postgres
+      - redis
+    working_dir: /app/app
+    volumes:
+      - ./app:/app/app
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      PG_DSN: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+    networks:
+      - crypto_watcher_network
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
+    
 volumes:
   pgdata:
   redisdata:

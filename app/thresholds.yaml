@@ -1,0 +1,6 @@
+partitions:
+  "06:00": {info_z: -1.5, warn_z: -2.5, crit_z: -3.5}
+global:
+  info_z: -1.5
+  warn_z: -2.5
+  crit_z: -3.5
